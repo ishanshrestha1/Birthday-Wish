@@ -1,39 +1,423 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Birthday Surprise 🎂</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <title>Anime Birthday ✨</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;800&family=Orbitron:wght@500;700&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      user-select: none;
+    }
 
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="./style.css">
+    body {
+      font-family: 'Poppins', sans-serif;
+      overflow: hidden;
+      background: #000;
+      color: #fff;
+    }
+
+    #bg-video {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      min-width: 100%;
+      min-height: 100%;
+      width: auto;
+      height: auto;
+      transform: translate(-50%, -50%);
+      object-fit: cover;
+      z-index: 0;
+      filter: brightness(0.5) contrast(1.1);
+      pointer-events: none;
+    }
+
+    #intro {
+      position: fixed;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: radial-gradient(circle, rgba(0,0,0,0.85), #000000);
+      backdrop-filter: blur(10px);
+      z-index: 30;
+      flex-direction: column;
+      gap: 2rem;
+      transition: opacity 0.6s ease;
+    }
+
+    #intro h1 {
+      font-family: 'Orbitron', monospace;
+      font-size: 2rem;
+      letter-spacing: 4px;
+      background: linear-gradient(135deg, #ffb7c5, #ff4d6d);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      animation: pulseGlow 1.8s infinite;
+    }
+
+    @keyframes pulseGlow {
+      0% { opacity: 0.7; }
+      100% { opacity: 1; text-shadow: 0 0 12px #ff80a5; }
+    }
+
+    #intro button {
+      padding: 14px 34px;
+      font-size: 1.3rem;
+      font-weight: bold;
+      border: none;
+      border-radius: 60px;
+      background: linear-gradient(95deg, #ff2d75, #ff8c42);
+      color: white;
+      cursor: pointer;
+      transition: 0.2s ease;
+      box-shadow: 0 0 20px rgba(255, 45, 117, 0.6);
+    }
+
+    #intro button:hover {
+      transform: scale(1.05);
+    }
+
+    .container {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      text-align: center;
+      opacity: 0;
+      transition: opacity 1s ease;
+      width: 90%;
+      max-width: 500px;
+      z-index: 15;
+    }
+
+    .card {
+      background: rgba(10, 10, 25, 0.65);
+      backdrop-filter: blur(20px);
+      border-radius: 48px;
+      padding: 2rem 1.8rem;
+      border: 1px solid rgba(255, 100, 150, 0.6);
+      box-shadow: 0 25px 45px rgba(0, 0, 0, 0.5), 0 0 30px rgba(255, 64, 129, 0.3);
+    }
+
+    .card h1 {
+      font-family: 'Orbitron', monospace;
+      font-size: 1.8rem;
+      background: linear-gradient(120deg, #FFD966, #FF85B3);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+
+    button {
+      margin-top: 24px;
+      padding: 12px 28px;
+      border: none;
+      border-radius: 40px;
+      background: #ff3b6f;
+      font-weight: 600;
+      font-size: 1.1rem;
+      color: white;
+      cursor: pointer;
+      transition: all 0.2s;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    button:hover {
+      background: #ff1e5e;
+      transform: scale(0.97);
+    }
+
+    .message {
+      display: none;
+      margin-top: 28px;
+      background: rgba(0, 0, 0, 0.6);
+      border-radius: 32px;
+      padding: 20px 16px;
+      border-left: 4px solid #ff80bf;
+      backdrop-filter: blur(8px);
+    }
+
+    .message h1 {
+      font-size: 1.5rem;
+      margin-bottom: 12px;
+      color: #ffc8dd;
+    }
+
+    #typed {
+      font-size: 1rem;
+      line-height: 1.6;
+      color: #f0f0f0;
+      white-space: pre-wrap;
+    }
+
+    #typed::after {
+      content: '|';
+      animation: blink 0.9s infinite;
+      color: #ff80bf;
+    }
+
+    @keyframes blink {
+      50% { opacity: 0; }
+    }
+
+    canvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 5;
+    }
+
+    .footer {
+      position: fixed;
+      bottom: 12px;
+      width: 100%;
+      text-align: center;
+      font-size: 0.7rem;
+      opacity: 0.6;
+      z-index: 20;
+    }
+
+    @media (max-width: 550px) {
+      .card { padding: 1.4rem; }
+      .card h1 { font-size: 1.4rem; }
+      button { padding: 8px 22px; font-size: 1rem; }
+    }
+  </style>
 </head>
-
 <body>
+
+<video autoplay muted loop playsinline id="bg-video">
+  <source src="anime.mp4" type="video/mp4">
+  <source src="https://assets.mixkit.co/videos/preview/mixkit-glowing-neon-light-trails-32816-large.mp4" type="video/mp4">
+</video>
+
+<div id="intro">
+  <h1>⚡ ANIME BIRTHDAY ⚡</h1>
+  <button id="startBtn">▶ START CELEBRATION 🎂</button>
+</div>
 
 <canvas id="fireworks"></canvas>
 
-<div class="container">
+<div class="container" id="main">
   <div class="card">
-    <h1>🎁 A Special Surprise</h1>
-    <p>Click below to reveal your birthday message</p>
-    <button onclick="reveal()">Open 🎉</button>
-
+    <h1>🎀 HAPPY BIRTHDAY 🎀</h1>
+    <button id="revealBtn">💖 REVEAL ANIME WISH 💖</button>
     <div class="message" id="msg">
-      <h1>🎂 Happy Birthday!</h1>
-      <p>
-        Wishing you endless happiness, success, and anime-level power-ups 😄✨<br><br>
-        May your day be filled with joy, laughter, and unforgettable moments 💖
-      </p>
+      <h1>🎂 To You, The Protagonist! 🎂</h1>
+      <p id="typed"></p>
     </div>
   </div>
 </div>
 
-<div class="footer">Made by Ishan</div>
+<div class="footer">✦ made with anime spirit by Ishan Shrestha ✦</div>
 
-<audio id="music" src="https://www.fesliyanstudios.com/play-mp3/387" loop></audio>
+<script>
+  (function() {
+    // ========== VIDEO SETUP ==========
+    const video = document.getElementById('bg-video');
+    if (video) {
+      video.muted = true;
+      video.playsInline = true;
+      video.play().catch(function(e) {});
+    }
 
-<script src="./script.js"></script>
+    // ========== DOM ELEMENTS ==========
+    const introDiv = document.getElementById('intro');
+    const mainContainer = document.getElementById('main');
+    const revealButton = document.getElementById('revealBtn');
+    const messageDiv = document.getElementById('msg');
+    const typedParagraph = document.getElementById('typed');
 
+    // ========== BIRTHDAY WISH TEXT ==========
+    const birthdayWish = `✨ You are the main character of your story... ✨\n\nKeep shining, keep fighting, and achieve everything you dream of 🔥\n\nMay your year be filled with epic battles, sweet victories, and beautiful moments like a true anime finale! 🌸🎉\n\n🌟 Happy Birthday, legend! 🌟`;
+
+    // ========== TYPING EFFECT VARIABLES ==========
+    let isTypingActive = false;
+    let currentCharIndex = 0;
+    let typingTimer = null;
+
+    // ========== RESET AND START TYPING ==========
+    function startTypingEffect() {
+      if (typingTimer) {
+        clearTimeout(typingTimer);
+      }
+      typedParagraph.innerHTML = '';
+      currentCharIndex = 0;
+      isTypingActive = true;
+      typeNextCharacter();
+    }
+
+    function typeNextCharacter() {
+      if (!isTypingActive) return;
+      
+      if (currentCharIndex < birthdayWish.length) {
+        let character = birthdayWish[currentCharIndex];
+        if (character === '\n') {
+          typedParagraph.innerHTML += '<br>';
+        } else {
+          typedParagraph.innerHTML += character;
+        }
+        currentCharIndex++;
+        typingTimer = setTimeout(typeNextCharacter, 32);
+      } else {
+        isTypingActive = false;
+      }
+    }
+
+    // ========== SHOW MESSAGE FUNCTION (called by button) ==========
+    function revealAnimeWish() {
+      if (messageDiv.style.display === 'block') {
+        if (!isTypingActive) {
+          startTypingEffect();
+        }
+      } else {
+        messageDiv.style.display = 'block';
+        startTypingEffect();
+      }
+    }
+
+    // ========== START SITE (hide intro, show main card) ==========
+    function startBirthdaySite() {
+      introDiv.style.opacity = '0';
+      setTimeout(function() {
+        introDiv.style.display = 'none';
+      }, 600);
+      mainContainer.style.opacity = '1';
+      
+      for (let i = 0; i < 3; i++) {
+        setTimeout(function() {
+          createFireworkParticle();
+        }, i * 160);
+      }
+    }
+
+    // ========== ATTACH EVENT LISTENERS ==========
+    const startButton = document.getElementById('startBtn');
+    if (startButton) {
+      startButton.addEventListener('click', startBirthdaySite);
+    }
+    
+    if (revealButton) {
+      revealButton.addEventListener('click', revealAnimeWish);
+    }
+
+    // ========== ULTRA LIGHTWEIGHT FIREWORKS (MINIMAL LAG) ==========
+    const canvas = document.getElementById('fireworks');
+    const ctx = canvas.getContext('2d');
+    let fireworkParticles = [];
+
+    function resizeFireworksCanvas() {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    }
+    
+    window.addEventListener('resize', resizeFireworksCanvas);
+    resizeFireworksCanvas();
+
+    function createFireworkParticle(optionalX, optionalY) {
+      const x = (optionalX !== undefined) ? optionalX : Math.random() * canvas.width;
+      const y = (optionalY !== undefined) ? optionalY : (Math.random() * canvas.height * 0.5) + 40;
+      const baseHue = Math.random() * 360;
+      const particleAmount = 14;
+      
+      for (let i = 0; i < particleAmount; i++) {
+        const angle = Math.random() * Math.PI * 2;
+        const speed = Math.random() * 2.2 + 0.8;
+        const vx = Math.cos(angle) * speed;
+        const vy = Math.sin(angle) * speed;
+        
+        fireworkParticles.push({
+          x: x,
+          y: y,
+          vx: vx,
+          vy: vy,
+          life: 48 + Math.random() * 18,
+          hue: (baseHue + Math.random() * 55) % 360,
+          size: Math.random() * 2.2 + 1
+        });
+      }
+    }
+
+    // periodic fireworks (slower spawn = smoother)
+    setInterval(function() {
+      if (introDiv.style.display === 'none' || getComputedStyle(introDiv).display === 'none') {
+        createFireworkParticle();
+        if (Math.random() > 0.75) {
+          setTimeout(function() { createFireworkParticle(); }, 100);
+        }
+      } else {
+        createFireworkParticle();
+      }
+    }, 1700);
+
+    // extra fireworks when clicking reveal button
+    if (revealButton) {
+      revealButton.addEventListener('click', function() {
+        for (let i = 0; i < 6; i++) {
+          setTimeout(function() {
+            const randX = canvas.width / 2 + (Math.random() - 0.5) * 180;
+            const randY = canvas.height * 0.5 + (Math.random() - 0.5) * 130;
+            createFireworkParticle(randX, randY);
+          }, i * 65);
+        }
+      });
+    }
+
+    // animation loop with optimized drawing
+    function animateFireworks() {
+      if (!ctx) return;
+      ctx.fillStyle = 'rgba(0, 0, 0, 0.12)';
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+      
+      for (let i = 0; i < fireworkParticles.length; i++) {
+        const p = fireworkParticles[i];
+        p.x += p.vx;
+        p.y += p.vy;
+        p.vy += 0.07;
+        p.life--;
+        
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+        ctx.fillStyle = 'hsla(' + p.hue + ', 100%, 65%, ' + (p.life / 55) + ')';
+        ctx.fill();
+        
+        if (p.life <= 0) {
+          fireworkParticles.splice(i, 1);
+          i--;
+        }
+      }
+      requestAnimationFrame(animateFireworks);
+    }
+    
+    animateFireworks();
+    
+    // initial burst
+    for (let i = 0; i < 5; i++) {
+      setTimeout(function() { createFireworkParticle(); }, i * 170);
+    }
+    
+    // optional: keep particle array clean
+    setInterval(function() {
+      if (fireworkParticles.length > 380) {
+        fireworkParticles = fireworkParticles.slice(-280);
+      }
+    }, 8000);
+    
+    // small fix for video on mobile: ensure playsinline
+    if (video) {
+      video.setAttribute('playsinline', 'true');
+    }
+    
+  })();
+</script>
 </body>
 </html>
