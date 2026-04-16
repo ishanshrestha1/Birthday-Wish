@@ -1,244 +1,86 @@
 
-  * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    user-select: none; /* prevents accidental text selection */
-  }
+*{margin:0;padding:0;box-sizing:border-box}
+body{
+  font-family:'Poppins',sans-serif;
+  background: linear-gradient(135deg,#0f2027,#203a43,#2c5364);
+  color:white;
+  overflow:hidden;
+}
 
-  body {
-    background: radial-gradient(circle at center, #0a0a2a 0%, #000000 100%);
-    overflow: hidden;
-    font-family: 'Segoe UI', 'Poppins', 'Arial', sans-serif;
-    color: white;
-    min-height: 100vh;
-  }
+/* Center Container */
+.container{
+  position:absolute;
+  top:50%;
+  left:50%;
+  transform:translate(-50%,-50%);
+  text-align:center;
+  z-index:10;
+}
 
-  /* Fireworks canvas */
-  #fireworks-canvas {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    display: block;
-    z-index: 1;
-    pointer-events: none; /* allows clicking through canvas */
-  }
+/* Glass Card */
+.card{
+  background:rgba(0,0,0,0.5);
+  padding:30px;
+  border-radius:20px;
+  backdrop-filter:blur(10px);
+  box-shadow:0 0 25px rgba(0,0,0,0.5);
+  max-width:350px;
+}
 
-  /* Main content container */
-  .center {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    text-align: center;
-    width: 90%;
-    max-width: 700px;
-    z-index: 2;
-    background: rgba(0, 0, 0, 0.55);
-    backdrop-filter: blur(6px);
-    border-radius: 32px;
-    padding: 2rem 2rem 2.2rem;
-    box-shadow: 0 0 40px rgba(255, 0, 255, 0.3);
-    border: 1px solid rgba(255, 100, 255, 0.4);
-    transition: all 0.3s ease;
-  }
+h1{
+  font-size:2rem;
+  margin-bottom:10px;
+}
 
-  h1 {
-    font-size: 2.5rem;
-    font-weight: bold;
-    background: linear-gradient(135deg, #ff99cc, #ff66ff, #ff44cc);
-    background-clip: text;
-    -webkit-background-clip: text;
-    color: transparent;
-    text-shadow: 0 0 15px #ff44ff80;
-    letter-spacing: 2px;
-    margin-bottom: 20px;
-    min-height: 120px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-wrap: wrap;
-    word-break: break-word;
-  }
+p{
+  font-size:1rem;
+  opacity:0.9;
+}
 
-  /* Birthday wishes lines container */
-  .wishes-container {
-    margin-top: 20px;
-    display: flex;
-    flex-direction: column;
-    gap: 14px;
-  }
+button{
+  margin-top:20px;
+  padding:10px 20px;
+  border:none;
+  border-radius:25px;
+  background:#ff4081;
+  color:white;
+  font-size:1rem;
+  cursor:pointer;
+  transition:0.3s;
+}
+button:hover{
+  background:#ff79a8;
+  transform:scale(1.05);
+}
 
-  .wish-line {
-    font-size: 1.2rem;
-    padding: 8px 12px;
-    background: rgba(255, 255, 255, 0.08);
-    border-radius: 60px;
-    letter-spacing: 1px;
-    backdrop-filter: blur(4px);
-    transition: all 0.4s ease;
-    opacity: 0;
-    transform: translateY(15px);
-    animation: slideFadeIn 0.6s forwards;
-    border-left: 4px solid #ff66ff;
-    text-align: center;
-    font-weight: 500;
-    color: #ffe6ff;
-  }
+/* Hidden message */
+.message{
+  display:none;
+  margin-top:20px;
+  animation:fadeIn 2s ease forwards;
+}
 
-  /* each line gets individual delay via inline style or staggered */
-  @keyframes slideFadeIn {
-    0% {
-      opacity: 0;
-      transform: translateY(18px);
-    }
-    100% {
-      opacity: 1;
-      transform: translateY(0);
-    }
-  }
+@keyframes fadeIn{
+  from{opacity:0;transform:translateY(20px)}
+  to{opacity:1;transform:translateY(0)}
+}
 
-  .tagline {
-    margin-top: 28px;
-    font-size: 1rem;
-    color: #ffccff;
-    text-shadow: 0 0 6px magenta;
-    opacity: 0.9;
-    font-style: italic;
-    letter-spacing: 1px;
-  }
+/* Fireworks canvas */
+canvas{
+  position:absolute;
+  top:0;
+  left:0;
+  width:100%;
+  height:100%;
+  z-index:1;
+}
 
-  footer {
-    position: fixed;
-    bottom: 15px;
-    width: 100%;
-    text-align: center;
-    font-size: 0.9rem;
-    font-weight: 500;
-    color: #ff99ff;
-    text-shadow: 0 0 10px #ff44ff, 0 0 20px #ff44aa;
-    letter-spacing: 1px;
-    z-index: 10;
-    background: transparent;
-    padding: 5px;
-    font-family: monospace;
-  }
-  @media (max-width: 600px) {
-    .center {
-      padding: 1.2rem;
-      width: 92%;
-    }
-    h1 {
-      font-size: 1.7rem;
-      min-height: 90px;
-    }
-    .wish-line {
-      font-size: 0.95rem;
-      padding: 6px 10px;
-    }
-    .tagline {
-      font-size: 0.8rem;
-    }
-  }
-  /* Enhanced wish line styles with hover effects */
-.wish-line {
-    font-size: 1.2rem;
-    padding: 8px 12px;
-    background: rgba(255, 255, 255, 0.08);
-    border-radius: 60px;
-    letter-spacing: 1px;
-    backdrop-filter: blur(4px);
-    transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-    opacity: 0;
-    transform: translateY(15px);
-    animation: slideFadeIn 0.6s forwards;
-    border-left: 4px solid #ff66ff;
-    text-align: center;
-    font-weight: 500;
-    color: #ffe6ff;
-    cursor: pointer;
-    position: relative;
-    overflow: hidden;
-  }
-  
-  /* Hover effect - scale and glow */
-  .wish-line:hover {
-    transform: scale(1.05) translateY(-3px);
-    background: rgba(255, 100, 255, 0.25);
-    border-left-width: 8px;
-    border-left-color: #ffaaff;
-    box-shadow: 0 0 20px rgba(255, 68, 255, 0.5);
-    letter-spacing: 2px;
-    color: #ffffff;
-    text-shadow: 0 0 5px #ff66ff;
-  }
-  
-  /* Ripple effect on click/hover */
-  .wish-line::before {
-    content: '';
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    width: 0;
-    height: 0;
-    border-radius: 50%;
-    background: radial-gradient(circle, rgba(255,255,255,0.3) 0%, rgba(255,68,255,0) 70%);
-    transform: translate(-50%, -50%);
-    transition: width 0.6s, height 0.6s;
-    pointer-events: none;
-  }
-  
-  .wish-line:hover::before {
-    width: 300px;
-    height: 300px;
-  }
-  
-  /* Individual wish colors on hover */
-  .wish-line:nth-child(1):hover {
-    background: linear-gradient(135deg, rgba(255, 100, 200, 0.3), rgba(255, 200, 100, 0.3));
-    border-left-color: #ff88aa;
-  }
-  
-  .wish-line:nth-child(2):hover {
-    background: linear-gradient(135deg, rgba(100, 200, 255, 0.3), rgba(255, 100, 200, 0.3));
-    border-left-color: #88ffaa;
-  }
-  
-  .wish-line:nth-child(3):hover {
-    background: linear-gradient(135deg, rgba(255, 200, 100, 0.3), rgba(255, 100, 255, 0.3));
-    border-left-color: #ffaa88;
-  }
-  
-  .wish-line:nth-child(4):hover {
-    background: linear-gradient(135deg, rgba(200, 100, 255, 0.3), rgba(255, 100, 150, 0.3));
-    border-left-color: #ff88ff;
-  }
-  
-  /* Click animation */
-  .wish-line:active {
-    transform: scale(0.98);
-    transition: transform 0.1s;
-  }
-
-  /* subtle floating heart particles (CSS only, light) */
-  .floating-heart {
-    position: absolute;
-    font-size: 20px;
-    pointer-events: none;
-    animation: floatHeart 6s linear forwards;
-    z-index: 3;
-    opacity: 0.6;
-  }
-
-  @keyframes floatHeart {
-    0% {
-      transform: translateY(0) rotate(0deg);
-      opacity: 0.8;
-    }
-    100% {
-      transform: translateY(-100vh) rotate(20deg);
-      opacity: 0;
-    }
-  }
+/* Footer */
+.footer{
+  position:absolute;
+  bottom:10px;
+  width:100%;
+  text-align:center;
+  font-size:0.8rem;
+  opacity:0.6;
+}

@@ -1,28 +1,39 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
-<title>Happy Birthday🎂</title>
-<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext x='50%25' y='50%25' font-size='75' text-anchor='middle' dy='.35em'%3E🎁%3C/text%3E%3C/svg%3E">
-<link rel="stylesheet" href="./style.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Birthday Surprise 🎂</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;600&display=swap" rel="stylesheet">
+
 </head>
+
 <body>
 
-<canvas id="fireworks-canvas"></canvas>
+<canvas id="fireworks"></canvas>
 
-<div class="center">
-  <h1 id="dynamic-text"></h1>
-  <div class="wishes-container" id="wishesContainer">
-    <div class="wish-line" id="wish1"></div>
-    <div class="wish-line" id="wish2"></div>
-    <div class="wish-line" id="wish3"></div>
-    <div class="wish-line" id="wish4"></div>
+<div class="container">
+  <div class="card">
+    <h1>🎁 A Special Surprise</h1>
+    <p>Click below to reveal your birthday message</p>
+    <button onclick="reveal()">Open 🎉</button>
+
+    <div class="message" id="msg">
+      <h1>🎂 Happy Birthday!</h1>
+      <p>
+        Wishing you endless happiness, success, and anime-level power-ups 😄✨<br><br>
+        May your day be filled with joy, laughter, and unforgettable moments 💖
+      </p>
+    </div>
   </div>
-  <div class="tagline">✨Birthday Wishes ✨</div>
 </div>
 
-<footer>Made by Ishan Shrestha 🎂</footer>
-<script src="./script.js"></script>
+<div class="footer">Made by Ishan</div>
+
+<audio id="music" src="https://www.fesliyanstudios.com/play-mp3/387" loop></audio>
+
+
+
 </body>
 </html>
